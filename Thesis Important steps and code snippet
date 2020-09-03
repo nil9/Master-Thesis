@@ -1,0 +1,26 @@
+1. Run the xml parsing code
+2. Collect the result and convert into linix files
+3. Trim the blanks from each of the collected triple stores
+4. Save all the files from multiple subfolders to a specific folder
+
+Below are the coodes snippet which I have used:
+
+
+2. Collect the result and convert into linix files:
+
+find . -type f -print0 | xargs -0 -n 1 -P 4 dos2unix  : This will pass 1 file at a time, and use 4 processors.
+
+
+3. Trim the blanks from each of the collected triple stores:
+
+find /media/sami/70AE0846AE080776/Deleteblank_Experiment/input -type f -name '*.nt' > filename.txt    # Here folder location is given which search for all .nt files and stores it in filename text file
+for f in `cat filename.txt`
+do
+  sed -r -i 's/^\s*(.*\S)*\s*$/\1/;/^$/d' $f                                                          #  This trims the blanks inside the file location
+done
+
+
+4. Save all the files from multiple subfolders to a specific folder :
+
+find ./input -name '*.nt' -exec mv {} /media/sami/70AE0846AE080776/folder2 \;   This is a shell script command first parameter : source folder location (Here we search for all .nt files).
+Second parameter: destination folder location
